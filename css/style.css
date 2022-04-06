@@ -3,6 +3,9 @@
     padding: 0;
 }
 
+:root {}
+
+
 html,
 body {
     height: 100%;
@@ -11,16 +14,46 @@ body {
 
 #container {
     display: flex;
-    background-color: black;
+    background-color: rgb(60, 173, 125);
     height: 100%;
     align-items: center;
     flex-direction: column;
 }
 
 .title {
-    color: aquamarine;
+    color: white;
     font-size: 3rem;
     font-weight: bold;
-    text-align: center;
     margin: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#table {
+    display: grid;
+    align-items: center;
+    flex-direction: column;
+}
+
+.square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    border: 2px solid rgb(43, 112, 88);
+    border-radius: 4px;
+    margin: 3px;
+    font-size: 3rem;
+    font-weight: bold;
+    height: 3.5rem;
+    width: 3.5rem;
+}
+
+.filled-square {
+    border: 2px solid rgb(60, 173, 125);
+}
+
+.table-row {
+    display: flex;
 }

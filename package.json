@@ -1,0 +1,26 @@
+{
+  "name": "betterwordle",
+  "version": "1.0.0",
+  "description": "Wordle with a backend and more features :)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node back-end/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setuppg": "createdb psql betterwordle",
+    "setup": "npm run setuppg"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UP2012741/BetterWordle.git"
+  },
+  "author": "Yuyutsu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UP2012741/BetterWordle/issues"
+  },
+  "homepage": "https://github.com/UP2012741/BetterWordle#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "pg": "^8.7.3"
+  }
+}

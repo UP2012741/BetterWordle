@@ -27,5 +27,5 @@ async function getWord(req, res) {
 }
 
 async function addWord(req, res) {
-    const messages = await bw.addWord(req.body.msg)
+    const messages = await bw.addWord(req.body.msg )
 }

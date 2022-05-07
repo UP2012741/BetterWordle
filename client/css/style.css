@@ -28,7 +28,7 @@ body {
 }
 
 
-#table {
+.table {
     display: grid;
     align-items: center;
     flex-direction: column;

@@ -23,3 +23,4 @@ function initTable() {
         table.appendChild(row)
     }
 }
+

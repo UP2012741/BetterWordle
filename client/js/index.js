@@ -1,3 +1,5 @@
+import { handle } from "express/lib/application";
+
 //setup
 const noOfGuesses = 6;
 const lengthOfWord = 5;
@@ -25,3 +27,46 @@ function initTable() {
     }
 }
 
+function keyboardInput() {
+    document.addEventListener("click", mouseClick)
+    document.addEventListener("keydown", handleKeyPress)
+}
+
+function handleMouseClick(e) {
+    if (e.target.matches("[data-key]")) {
+        pressKey(e.target.dataset.key);
+        return
+    }
+    if (e.target.matches("[data-enter]")) {
+        submitGuess();
+        return
+    }
+    if (e.target.matches("[data-delete]")) {
+        deleteKey();
+        return
+    }
+}
+
+function handleKeyPress(e) {
+    if (e.key === "Enter") {
+        submitGuess();
+        return
+    }
+    if (e.key === "Backspace" || e.key === "Delete") {
+        deleteKey();
+        return
+    }
+    if (e.key.match(/^[a - z]$/)) { // REGULAR EXPRESSION TO CHECK ANY CHARACTER FROM a - z
+        pressKey(e.key);
+        return
+    }
+}
+
+function stopInput(e) {
+    document.removeEventListner("click", handleMouseClick);
+    document.removeEventListener("keydown", handleKeyPress);
+}
+
+function pressKey(key) {
+
+}

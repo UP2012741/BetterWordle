@@ -8,19 +8,23 @@ html,
 body {
     height: 100%;
     font-family: Arial, Helvetica, sans-serif;
+
 }
+
 
 #container {
     display: flex;
-    background-color: rgb(60, 173, 125);
+    background-color: hsl(155, 48.5%, 45.7%);
     height: 100%;
     align-items: center;
     flex-direction: column;
 }
 
+
+
 .title {
     color: white;
-    font-size: 3rem;
+    font-size: 3em;
     font-weight: bold;
     margin: 1rem;
     justify-content: center;
@@ -31,7 +35,9 @@ body {
 .table {
     display: grid;
     align-items: center;
+    align-content: center;
     flex-direction: column;
+    flex-grow: 1;
 }
 
 .square {
@@ -39,19 +45,81 @@ body {
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
-    border: 2px solid rgb(43, 112, 88);
+    border: 2px solid hsl(159, 44.5%, 30.4%);
     border-radius: 4px;
     margin: 3px;
-    font-size: 3rem;
+    font-size: 3em;
     font-weight: bold;
     height: 3.5rem;
     width: 3.5rem;
 }
 
 .filled-square {
-    border: 2px solid rgb(60, 173, 125);
+    border: 2px solid hsl(155, 48.0%, 39.2%);
 }
 
 .table-row {
     display: flex;
+}
+
+.keyboard-overlay {
+    display: grid;
+    grid-template-columns: repeat(20, minmax(auto, 1.5em));
+    grid-auto-rows: 3em;
+    gap: .25em;
+    justify-content: center;
+}
+
+.key {
+    font-size: 1em;
+    grid-column: span 2;
+    border: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: hsl(var(--hue, 155),
+            var(--saturation, 48.0%),
+            calc(var(--lightness-offset, 0%) + var(--lightness, 39.2%)));
+    color: white;
+    fill: white;
+    text-transform: uppercase;
+    border-radius: .5em;
+    cursor: pointer;
+    user-select: none;
+}
+
+.key.larger {
+    grid-column: span 3;
+}
+
+.key>svg {
+    width: 1.75em;
+    height: 1.75em;
+}
+
+.key:hover,
+.key:focus {
+    --lightness-offset: 10%
+}
+
+
+/* Heirachy between the keys. We want "incorrect location key" to overide "incorrect key"
+and "correct location key" to overide "incorrect location key" */
+
+.key.incorrect {
+    --lightness: 22%;
+
+}
+
+.key.incorrect-location {
+    --hue: 49;
+    --saturation: 51%;
+    --lightness: 47%;
+}
+
+.key.correct {
+    --hue: 115%;
+    --saturation: 29%;
+    --lightness: 43%
 }

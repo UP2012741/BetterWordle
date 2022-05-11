@@ -17,7 +17,8 @@ function initTable() {
         row.className = "table-row"
         for (let j = 0; j < lengthOfWord; j++) {
             let square = document.createElement("div");
-            square.className = "square"
+            square.className = "square";
+            square.dataset.status = "";
             row.appendChild(square)
         }
         table.appendChild(row)

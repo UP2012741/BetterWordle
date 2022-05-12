@@ -14,7 +14,7 @@ body {
 
 #container {
     display: flex;
-    background-color: hsl(155, 48.5%, 45.7%);
+    background-color: hsl(240, 3%, 7%);
     height: 100%;
     align-items: center;
     flex-direction: column;
@@ -38,6 +38,8 @@ body {
     align-content: center;
     flex-direction: column;
     flex-grow: 1;
+    gap: 0.05em;
+    margin-bottom: 1em;
 }
 
 .square {
@@ -45,18 +47,36 @@ body {
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
-    border: 2px solid hsl(159, 44.5%, 30.4%);
-    border-radius: 4px;
-    margin: 3px;
-    font-size: 3em;
+    color: white;
+    border: 0.075em solid hsl(240, 2%, 23%);
+    display: flex;
+    font-size: 2em;
     font-weight: bold;
-    height: 3.5rem;
-    width: 3.5rem;
+    height: 2em;
+    width: 2em;
+    user-select: none;
+    transition: transform 250ms linear;
+    margin: 0.05em;
 }
 
-.filled-square {
-    border: 2px solid hsl(155, 48.0%, 39.2%);
+.filled-box {
+    border: 0.05em solid black;
 }
+
+.square[data-status="active"] {
+    border-color: hsl(200);
+}
+
+.square[data-status="incorrect"] {
+    border: none;
+    background-color: hsl(200, 1%, 34%);
+}
+
+.square[data-status="incorrect-location"] {
+    border: none;
+    background-color: hsl(49, 51%, 47%);
+}
+
 
 .table-row {
     display: flex;
@@ -78,9 +98,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: hsl(var(--hue, 155),
-            var(--saturation, 48.0%),
-            calc(var(--lightness-offset, 0%) + var(--lightness, 39.2%)));
+    background-color: hsl(var(--hue, 200),
+            var(--saturation, 1%),
+            calc(var(--lightness-offset, 0%) + var(--lightness, 51%)));
     color: white;
     fill: white;
     text-transform: uppercase;

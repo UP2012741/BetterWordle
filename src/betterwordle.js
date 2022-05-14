@@ -27,7 +27,7 @@ export async function addWord(word) {
     return listWords
 }
 
-export async function editMessage(updatedWord) {
+export async function updatedWord(updatedWord) {
     const q = 'UPDATE words SET word = $1 WHERE id =$2'
     await sql.query(q, [updatedWord.word, updatedWord.id]);
     return findWord(updatedWord.id)

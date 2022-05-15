@@ -35,6 +35,6 @@ function asyncWrap(f) {
 
 app.get('/words', asyncWrap(getWords));
 app.get('/words/:id', asyncWrap(getWord))
-app.get('/words/:id', express.json().asyncWrap(putWord));
-app.get('/words/', express.json(), asyncWrap(putWord));
+app.put('/words/:id', express.json().asyncWrap(putWord));
+app.post('/words/', express.json(), asyncWrap(putWord));
 app.listen(8080);

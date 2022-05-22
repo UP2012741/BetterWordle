@@ -1,7 +1,7 @@
 -- UP
 CREATE TABLE Words(
     id CHAR(36) PRIMARY KEY,
-    word TEXT   NOT NULL
+    word CHAR(5)   NOT NULL
 );
 
 

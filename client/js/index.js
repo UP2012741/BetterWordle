@@ -1,14 +1,26 @@
 //setup
-const NO_OF_GUESSES = 6;
-const WORD_LENGTH = 5;
+const NO_OF_GUESSES = 6; // THE NUMBER OF GUESSES ALLOWED
+const WORD_LENGTH = 5; // THE LENGTH OF WORDS
 const dictionaryAPI = "https://dictionary-dot-sse-2020.nw.r.appspot.com/";
+const el = {};
+let wordOfTheDay
+
+
+//COMMENTED OUT BECAUSE I FOLLOWED THE MESSAGEBOARD EXAMPLE INSTEAD BECAUSE I DID NOT KNOW IF THIS IS GOOD PRACITSE
 //Event fires as soon as html page is loaded
-document.addEventListener("DOMContentLoaded", () => {
+// document.addEventListener("DOMContentLoaded", () => {
+//     initTable();
+//     keyboardInput();
+// })
+
+function pageLoaded() {
     initTable();
     keyboardInput();
-})
+}
 
+window.addEventListener('load', pageLoaded);
 
+//Creates the Grid for the words. 
 function initTable() {
     //creating the rows of the table
     const table = document.querySelector(".table");
@@ -29,12 +41,13 @@ function initTable() {
 
 
 
-
+//listens for keyboard and mouse inputs 
 function keyboardInput() {
     document.addEventListener("click", handleMouseClick)
     document.addEventListener("keydown", handleKeyPress)
 }
 
+//Handles mouse click inputs
 function handleMouseClick(e) {
     if (e.target.matches("[data-key]")) {
         pressKey(e.target.dataset.key);
@@ -49,7 +62,7 @@ function handleMouseClick(e) {
         return
     }
 }
-
+//Handles key presses
 function handleKeyPress(e) {
     if (e.key === "Enter") {
         submitGuess();
@@ -92,4 +105,36 @@ function deleteKey(key) {
     lastSquare.textContent = "";
     delete lastSquare.dataset.letter;
     lastSquare.dataset.status = "";
+}
+
+function submitGuess() {
+    const row = document.querySelector("[data-solved = 'not-sovled']");
+    const activeSquares = [...getActiveSquare(row)];
+    if (activeSquares.length !== WORD_LENGTH) {
+        showAlert("Not enough Letters")
+
+        return
+    }
+}
+
+
+function showAlert(message, duration = 1000) {
+    const alert = document.createElement("div");
+    const alertContainer = document.querySelector("[data-alert-container]");
+    alert.textContent = message;
+    alert.classList.add("alert");
+    alertContainer.prepend(alert);
+    if (duration == null) return
+
+    setTimeout(() => {
+        alert.classList.add("hide");
+        alert.addEventListener("transitioned", () => {
+            alert.remove();
+        })
+    }, duration)
+
+}
+
+function shakeTiles(square) {
+
 }

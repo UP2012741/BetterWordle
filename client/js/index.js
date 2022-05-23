@@ -111,14 +111,15 @@ function submitGuess() {
     const row = document.querySelector("[data-solved = 'not-sovled']");
     const activeSquares = [...getActiveSquare(row)];
     if (activeSquares.length !== WORD_LENGTH) {
-        showAlert("Not enough Letters")
-
+        showAlert("Not enough letters");
+        shakeSquares(activeSquares);
         return
     }
 }
 
 
-function showAlert(message, duration = 1000) {
+
+function showAlert(message, duration = 750) {
     const alert = document.createElement("div");
     const alertContainer = document.querySelector("[data-alert-container]");
     alert.textContent = message;
@@ -135,6 +136,15 @@ function showAlert(message, duration = 1000) {
 
 }
 
-function shakeTiles(square) {
-
+function shakeSquares(squares) {
+    squares.forEach(square => {
+        square.classList.add("shake")
+        square.addEventListener(
+            "animationend",
+            () => {
+                square.classList.remove("shake")
+            },
+            { once: true }
+        )
+    })
 }

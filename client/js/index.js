@@ -1,7 +1,6 @@
 //setup
 const NO_OF_GUESSES = 6; // THE NUMBER OF GUESSES ALLOWED
 const WORD_LENGTH = 5; // THE LENGTH OF WORDS
-const dictionaryAPI = "https://dictionary-dot-sse-2020.nw.r.appspot.com/";
 const el = {};
 let wordOfTheDay
 
@@ -107,17 +106,30 @@ function deleteKey(key) {
     lastSquare.dataset.status = "";
 }
 
-function submitGuess() {
+async function submitGuess() {
     const row = document.querySelector("[data-solved = 'not-sovled']");
     const activeSquares = [...getActiveSquare(row)];
+    //checks if the length submitted is correct length 
     if (activeSquares.length !== WORD_LENGTH) {
-        showAlert("Not enough letters");
-        shakeSquares(activeSquares);
+        showAlert("Not enough letters"); //returns error message
+        shakeSquares(activeSquares); //shakes the squares
         return
     }
+    //takes the word and puts it in the guess variable 
+    const guess = activeSquares.reduce((word, square) => {
+        return word + square.dataset.letter
+    }, "");
+
+    let check = await validWord(guess);
+    if (check === "Not Found") {
+        showAlert("Word does not exist"); //returns error message
+        shakeSquares(activeSquares); //shakes the squares
+    }
+
+    stopInteraction()
+
+
 }
-
-
 
 function showAlert(message, duration = 750) {
     const alert = document.createElement("div");
@@ -147,4 +159,16 @@ function shakeSquares(squares) {
             { once: true }
         )
     })
+}
+
+async function validWord(guess) {
+    const url = 'https://dictionary-dot-sse-2020.nw.r.appspot.com/' + guess;
+    const response = await fetch(url);
+    data = response.text();
+    return data;
+}
+
+function flipTiles(square, index, array, guess) {
+
+
 }

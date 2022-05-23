@@ -26,6 +26,15 @@ async function putWord(req, res) {
     const word = await wb.editWord(req.body);
     res.json(word);
 }
+
+async function compareWord(req, res) {
+    let results = [];
+    const guessWord = req.params.word
+    const day = new Date().getDate();
+    const getWordOfTheDay = await wb.findWord(day);
+    for (guessWord.length())
+}
+
 function asyncWrap(f) {
     return (req, res, next) => {
         Promise.resolve(f(req, res, next))
@@ -33,8 +42,11 @@ function asyncWrap(f) {
     };
 }
 
+
 app.get('/words', asyncWrap(getWords));
 app.get('/words/:id', asyncWrap(getWord))
 app.put('/words/:id', express.json(), asyncWrap(putWord));
 app.post('/words/', express.json(), asyncWrap(postWord));
+app.get('/compare/:word', asyncWrap(compareWord));
+
 app.listen(8080);

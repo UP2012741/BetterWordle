@@ -2,8 +2,6 @@
 const NO_OF_GUESSES = 6; // THE NUMBER OF GUESSES ALLOWED
 const WORD_LENGTH = 5; // THE LENGTH OF WORDS
 const el = {};
-let wordOfTheDay
-
 
 //COMMENTED OUT BECAUSE I FOLLOWED THE MESSAGEBOARD EXAMPLE INSTEAD BECAUSE I DID NOT KNOW IF THIS IS GOOD PRACITSE
 //Event fires as soon as html page is loaded
@@ -16,6 +14,8 @@ function pageLoaded() {
     initTable();
     keyboardInput();
 }
+
+
 
 window.addEventListener('load', pageLoaded);
 
@@ -126,7 +126,9 @@ async function submitGuess() {
         shakeSquares(activeSquares); //shakes the squares
     }
 
-    stopInteraction()
+    stopInteraction();
+
+
 
 
 }
@@ -169,6 +171,15 @@ async function validWord(guess) {
 }
 
 function flipTiles(square, index, array, guess) {
+    const letter = square.dataset.letter
+    const key = keyboard.querySelector[`[data-key]"${letter}"i`]
+    setTimeout(() => {
+        square.classList.add("flip")
+    }, (index * FLIP_ANIMATION_DURATION) / 2)
+
+}
 
 
+async function compareWord(guess) {
+    const response = await fetch('')
 }

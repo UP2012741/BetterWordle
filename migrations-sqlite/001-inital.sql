@@ -6,8 +6,8 @@ CREATE TABLE Words(
 
 
 INSERT INTO Words (id, word) VALUES
-( 'xnshfdsafasd',
-  'pog');
+( 1,
+  'PEPEPOG');
 
 
 -- Down

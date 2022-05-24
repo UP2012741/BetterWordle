@@ -31,6 +31,12 @@ export async function findWord(id) {
     return db.get('SELECT * FROM Words WHERE id = ?', id);
 }
 
+//get just word
+export async function getJustWord(id) {
+    const db = await dbConn;
+    return db.get('SELECT word From WORDS WHERE id = ?', id);
+}
+
 export async function addWord(word) {
     const db = await dbConn;
     const id = uuid();

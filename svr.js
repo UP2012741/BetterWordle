@@ -2,6 +2,7 @@ import express from 'express';
 import * as wb from './wordboard.js';
 
 const app = express();
+const day = new Date().getDate();
 
 app.use(express.static('client', { extensions: ['html'] }));
 
@@ -28,11 +29,10 @@ async function putWord(req, res) {
 }
 
 async function compareWord(req, res) {
-    let results = [];
     const guessWord = req.params.word
-    const day = new Date().getDate();
-    const getWordOfTheDay = await wb.findWord(day);
-    for (guessWord.length())
+    const getWordOfTheDay = await wb.getJustWord(day);
+    const result = compare(guessWord, getWordOfTheDay.word)
+    res.send(result);
 }
 
 function asyncWrap(f) {
@@ -40,6 +40,21 @@ function asyncWrap(f) {
         Promise.resolve(f(req, res, next))
             .catch((e) => next(e || new Error()));
     };
+}
+
+function compare(guess, target) {
+    let results = [];
+    for (let i = 0; i < guess.length; i++) {
+        if (guess.charAt(i) === target.charAt(i)) {
+            results.push("correct")
+        }
+        else if (target.includes(guess.charAt(i))) {
+            results.push("wrong-location");
+        } else {
+            results.push("wrong");
+        }
+    }
+    return results;
 }
 
 

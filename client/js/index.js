@@ -126,11 +126,6 @@ async function submitGuess() {
         shakeSquares(activeSquares); //shakes the squares
     }
 
-    stopInteraction();
-
-
-
-
 }
 
 function showAlert(message, duration = 750) {

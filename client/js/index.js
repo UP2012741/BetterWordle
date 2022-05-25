@@ -126,17 +126,14 @@ async function submitGuess() {
         shakeSquares(activeSquares); //shakes the squares
     } else {
         result = await compareWord(guess);
-        console.log(result)
         stopInteraction();
         let i = 0
         activeSquares.forEach(square => {
             assignResult(square, result, i);
             i++;
         })
-        startInteraction();
-
+        row.dataset.solved = "solved"
     }
-
 }
 
 function showAlert(message, duration = 750) {
@@ -185,6 +182,13 @@ async function compareWord(guess) {
     return data;
 }
 
+async function getWordOfTheDay() {
+    const response = await fetch(`wordOfTheDay`)
+    data = response.json();
+    console.log(data)
+    return data
+}
+
 function startInteraction() {
     document.addEventListener("click", handleMouseClick)
     document.addEventListener("keydown", handleKeyPress)
@@ -195,12 +199,10 @@ function stopInteraction() {
     document.removeEventListener("keydown", handleKeyPress)
 }
 
-function assignResult(square, result, i) {
+function assignResult(square, result, i, guess) {
     const keyboard = document.querySelector("[data-keyboard]");
-    const letter = square.dataset.letter;
-    const key = keyboard.querySelector(`[data-key="${letter.toUpperCase()}"i]`);
-
-    console.log(result[i])
+    let letter = square.dataset.letter;
+    let key = keyboard.querySelector(`[data-key="${letter}"i]`);
     setTimeout(() => {
         square.classList.add("flip");
     }, (i * FLIP_ANIMATION_DURATION) / 2)
@@ -211,7 +213,33 @@ function assignResult(square, result, i) {
             square.classList.remove("flip")
             square.dataset.status = result[i];
             key.classList.add(result[i]);
-        }
+            if (i === result.length - 1) {
+                square.addEventListener(
+                    "transitionend",
+                    () => {
+                        startInteraction(); //restarts interactionn
+                        checkGameState(result);//checks if the game is won or lost
+                    },
+                    { once: true }
+                )
+            }
+        },
+        { once: true }
     )
+}
 
+async function checkGameState(result) {
+    const resultSet = new Set(result); //Puts the array into a set
+    if (resultSet.has("correct") && resultSet.size === 1) { //checks if that state includes correct and only correct
+        showAlert("You win!", 5000) //outputs you win if true
+        squareJiggle()
+        stopInteraction() //stops all intearctions
+        return
+    }
+    const rows = document.querySelectorAll("[data-solved = 'not-sovled']");
+    if (rows.length === 0) {
+        word = await getWordOfTheDay()
+
+        showAlert(word["word"], 10000)
+    }
 }

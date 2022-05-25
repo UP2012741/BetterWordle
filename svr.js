@@ -35,6 +35,11 @@ async function compareWord(req, res) {
     res.send(result);
 }
 
+async function WordOfTheDay(req, res) {
+    const word = await wb.getJustWord(day);
+    res.send(word);
+}
+
 function asyncWrap(f) {
     return (req, res, next) => {
         Promise.resolve(f(req, res, next))
@@ -63,5 +68,5 @@ app.get('/words/:id', asyncWrap(getWord))
 app.put('/words/:id', express.json(), asyncWrap(putWord));
 app.post('/words/', express.json(), asyncWrap(postWord));
 app.get('/compare/:word', asyncWrap(compareWord));
-
+app.get('/WordOfTheDay', asyncWrap(WordOfTheDay))
 app.listen(8080);

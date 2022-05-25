@@ -1,8 +1,11 @@
-* {
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
-
 
 html,
 body {
@@ -57,26 +60,12 @@ body {
     user-select: none;
     transition: transform 250ms linear;
     margin: 0.05em;
+
 }
 
 .filled-box {
     border: 0.05em solid black;
 }
-
-.square[data-status="active"] {
-    border-color: hsl(200);
-}
-
-.square[data-status="incorrect"] {
-    border: none;
-    background-color: hsl(200, 1%, 34%);
-}
-
-.square[data-status="incorrect-location"] {
-    border: none;
-    background-color: hsl(49, 51%, 47%);
-}
-
 
 .table-row {
     display: flex;
@@ -127,21 +116,21 @@ body {
 /* Heirachy between the keys. We want "incorrect location key" to overide "incorrect key"
 and "correct location key" to overide "incorrect location key" */
 
-.key.incorrect {
-    --lightness: 22%;
+.key.absent {
+    --lightness: 23%;
 
 }
 
-.key.incorrect-location {
+.key.present {
     --hue: 49;
     --saturation: 51%;
     --lightness: 47%;
 }
 
 .key.correct {
-    --hue: 115%;
+    --hue: 115;
     --saturation: 29%;
-    --lightness: 43%
+    --lightness: 43%;
 }
 
 .alertContainer {
@@ -177,22 +166,26 @@ and "correct location key" to overide "incorrect location key" */
     animation: shake 250ms, ease-in-out;
 }
 
-.square[data-status="wrong"] {
-    border: none;
+.square[data-status="active"] {
+    border-color: hsl(200, 1%, 34%);
+}
+
+.square[data-status="absent"] {
+    border: hsl(240, 2%, 23%);
     background-color: hsl(240, 2%, 23%);
 }
 
-.square[data-status="wrong-location"] {
-    border: none;
+.square[data-status="present"] {
+    border: hsl(49, 51%, 47%);
     background-color: hsl(49, 51%, 47%);
 }
 
 .square[data-status="correct"] {
-    border: none;
+    border: hsl(115, 29%, 43%);
     background-color: hsl(115, 29%, 43%);
 }
 
-.sqaure.flip {
+.square.flip {
     transform: rotateX(90deg);
 }
 

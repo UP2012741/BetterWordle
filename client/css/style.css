@@ -177,6 +177,26 @@ and "correct location key" to overide "incorrect location key" */
     animation: shake 250ms, ease-in-out;
 }
 
+.square[data-status="wrong"] {
+    border: none;
+    background-color: hsl(240, 2%, 23%);
+}
+
+.square[data-status="wrong-location"] {
+    border: none;
+    background-color: hsl(49, 51%, 47%);
+}
+
+.square[data-status="correct"] {
+    border: none;
+    background-color: hsl(115, 29%, 43%);
+}
+
+.sqaure.flip {
+    transform: rotateX(90deg);
+}
+
+
 @keyframes shake {
     10% {
         transform: translateX(-5%);

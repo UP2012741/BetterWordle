@@ -49,9 +49,9 @@ function compare(guess, target) {
             results.push("correct")
         }
         else if (target.includes(guess.charAt(i))) {
-            results.push("wrong-location");
+            results.push("present");
         } else {
-            results.push("wrong");
+            results.push("absent");
         }
     }
     return results;

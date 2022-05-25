@@ -1,7 +1,7 @@
 //setup
 const NO_OF_GUESSES = 6; // THE NUMBER OF GUESSES ALLOWED
 const WORD_LENGTH = 5; // THE LENGTH OF WORDS
-const el = {};
+const FLIP_ANIMATION_DURATION = 500;
 
 //COMMENTED OUT BECAUSE I FOLLOWED THE MESSAGEBOARD EXAMPLE INSTEAD BECAUSE I DID NOT KNOW IF THIS IS GOOD PRACITSE
 //Event fires as soon as html page is loaded
@@ -96,7 +96,7 @@ function getActiveSquare(row) {
     return row.querySelectorAll("[data-status = 'active']");
 }
 
-function deleteKey(key) {
+function deleteKey() {
     const row = document.querySelector("[data-solved = 'not-sovled']");
     const activeSquares = getActiveSquare(row);
     const lastSquare = activeSquares[activeSquares.length - 1];
@@ -124,6 +124,17 @@ async function submitGuess() {
     if (check === "Not Found") {
         showAlert("Word does not exist"); //returns error message
         shakeSquares(activeSquares); //shakes the squares
+    } else {
+        result = await compareWord(guess);
+        console.log(result)
+        stopInteraction();
+        let i = 0
+        activeSquares.forEach(square => {
+            assignResult(square, result, i);
+            i++;
+        })
+        startInteraction();
+
     }
 
 }
@@ -158,6 +169,7 @@ function shakeSquares(squares) {
     })
 }
 
+//CHECKS IF THE WORD IS REAL
 async function validWord(guess) {
     const url = 'https://dictionary-dot-sse-2020.nw.r.appspot.com/' + guess;
     const response = await fetch(url);
@@ -165,16 +177,41 @@ async function validWord(guess) {
     return data;
 }
 
-function flipTiles(square, index, array, guess) {
-    const letter = square.dataset.letter
-    const key = keyboard.querySelector[`[data-key]"${letter}"i`]
-    setTimeout(() => {
-        square.classList.add("flip")
-    }, (index * FLIP_ANIMATION_DURATION) / 2)
-
-}
 
 
 async function compareWord(guess) {
-    const response = await fetch('')
+    const response = await fetch(`compare/${guess.toUpperCase()}`)
+    data = response.json();
+    return data;
+}
+
+function startInteraction() {
+    document.addEventListener("click", handleMouseClick)
+    document.addEventListener("keydown", handleKeyPress)
+}
+
+function stopInteraction() {
+    document.removeEventListener("click", handleMouseClick)
+    document.removeEventListener("keydown", handleKeyPress)
+}
+
+function assignResult(square, result, i) {
+    const keyboard = document.querySelector("[data-keyboard]");
+    const letter = square.dataset.letter;
+    const key = keyboard.querySelector(`[data-key="${letter.toUpperCase()}"i]`);
+
+    console.log(result[i])
+    setTimeout(() => {
+        square.classList.add("flip");
+    }, (i * FLIP_ANIMATION_DURATION) / 2)
+
+    square.addEventListener(
+        "transitionend",
+        () => {
+            square.classList.remove("flip")
+            square.dataset.status = result[i];
+            key.classList.add(result[i]);
+        }
+    )
+
 }

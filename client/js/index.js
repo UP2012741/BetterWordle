@@ -256,10 +256,6 @@ async function checkGameState(result) {
     }
 }
 
-function initLocalStorage() {
-    return
-}
-
 function peserveWordleState() {
     const keyboardState = document.querySelector("[data-keyboard]");
     window.localStorage.setItem('keyboardState', keyboardState.innerHTML)

@@ -37,7 +37,7 @@ async function compareWord(req, res) {
 
 async function WordOfTheDay(req, res) {
     const word = await wb.getJustWord(day);
-    res.send(word);
+    res.json(word);
 }
 
 function asyncWrap(f) {

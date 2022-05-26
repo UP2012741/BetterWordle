@@ -2,6 +2,13 @@
 const NO_OF_GUESSES = 6; // THE NUMBER OF GUESSES ALLOWED
 const WORD_LENGTH = 5; // THE LENGTH OF WORDS
 const FLIP_ANIMATION_DURATION = 500;
+//local storage
+let gamesPlayed = 0;
+let winStreak = 0;
+let maxStreak = 0;
+let noOfWins = 0;
+let winPercentage = 0;
+
 
 //COMMENTED OUT BECAUSE I FOLLOWED THE MESSAGEBOARD EXAMPLE INSTEAD BECAUSE I DID NOT KNOW IF THIS IS GOOD PRACITSE
 //Event fires as soon as html page is loaded
@@ -13,6 +20,7 @@ const FLIP_ANIMATION_DURATION = 500;
 function pageLoaded() {
     initTable();
     keyboardInput();
+    loadLocalStorage();
 }
 
 
@@ -65,21 +73,17 @@ function handleMouseClick(e) {
 function handleKeyPress(e) {
     if (e.key === "Enter") {
         submitGuess();
+
         return
     }
     if (e.key === "Backspace" || e.key === "Delete") {
         deleteKey();
         return
     }
-    if (e.key.match(/^[a-z]$/)) {
+    if (e.key.match(/^[a-z]$/)) { //regular expression of just keys from a - z
         pressKey(e.key)
         return
     }
-}
-
-function stopInput(e) {
-    document.removeEventListner("click", handleMouseClick);
-    document.removeEventListener("keydown", handleKeyPress);
 }
 
 function pressKey(key) {
@@ -105,7 +109,7 @@ function deleteKey() {
     delete lastSquare.dataset.letter;
     lastSquare.dataset.status = "";
 }
-
+//Sumbit guess LOGIC
 async function submitGuess() {
     const row = document.querySelector("[data-solved = 'not-sovled']");
     const activeSquares = [...getActiveSquare(row)];
@@ -126,10 +130,11 @@ async function submitGuess() {
         shakeSquares(activeSquares); //shakes the squares
     } else {
         result = await compareWord(guess);
-        stopInteraction();
+        stopInput();
         let i = 0
+        let temp = []
         activeSquares.forEach(square => {
-            assignResult(square, result, i);
+            assignResult(square, result, i, temp);
             i++;
         })
         row.dataset.solved = "solved"
@@ -153,7 +158,9 @@ function showAlert(message, duration = 750) {
 
 }
 
+//function shakes the squares in the grid that it is passed too
 function shakeSquares(squares) {
+    // adds a classList of shake and then animates the shake animation then removes it from the class list
     squares.forEach(square => {
         square.classList.add("shake")
         square.addEventListener(
@@ -161,7 +168,7 @@ function shakeSquares(squares) {
             () => {
                 square.classList.remove("shake")
             },
-            { once: true }
+            { once: true } //only once
         )
     })
 }
@@ -185,21 +192,20 @@ async function compareWord(guess) {
 async function getWordOfTheDay() {
     const response = await fetch(`wordOfTheDay`)
     data = response.json();
-    console.log(data)
     return data
 }
 
-function startInteraction() {
+function startInput() {
     document.addEventListener("click", handleMouseClick)
     document.addEventListener("keydown", handleKeyPress)
 }
 
-function stopInteraction() {
+function stopInput() {
     document.removeEventListener("click", handleMouseClick)
     document.removeEventListener("keydown", handleKeyPress)
 }
 
-function assignResult(square, result, i, guess) {
+function assignResult(square, result, i, temp) {
     const keyboard = document.querySelector("[data-keyboard]");
     let letter = square.dataset.letter;
     let key = keyboard.querySelector(`[data-key="${letter}"i]`);
@@ -213,16 +219,22 @@ function assignResult(square, result, i, guess) {
             square.classList.remove("flip")
             square.dataset.status = result[i];
             key.classList.add(result[i]);
+            if (temp.includes(letter) && result[i] !== "correct") {
+                square.dataset.status = "absent";
+            }
+            temp.push(letter);
             if (i === result.length - 1) {
                 square.addEventListener(
                     "transitionend",
                     () => {
-                        startInteraction(); //restarts interactionn
+                        peserveWordleState(); //save guess to the local storage
+                        startInput(); //restarts interactionn
                         checkGameState(result);//checks if the game is won or lost
                     },
                     { once: true }
                 )
             }
+
         },
         { once: true }
     )
@@ -232,14 +244,40 @@ async function checkGameState(result) {
     const resultSet = new Set(result); //Puts the array into a set
     if (resultSet.has("correct") && resultSet.size === 1) { //checks if that state includes correct and only correct
         showAlert("You win!", 5000) //outputs you win if true
-        squareJiggle()
-        stopInteraction() //stops all intearctions
+        //squareJiggle()
+        stopInput() //stops all intearctions
         return
     }
     const rows = document.querySelectorAll("[data-solved = 'not-sovled']");
     if (rows.length === 0) {
         word = await getWordOfTheDay()
-
         showAlert(word["word"], 10000)
+        stopInput()
     }
+}
+
+function initLocalStorage() {
+    return
+}
+
+function peserveWordleState() {
+    const keyboardState = document.querySelector("[data-keyboard]");
+    window.localStorage.setItem('keyboardState', keyboardState.innerHTML)
+
+    const tableState = document.querySelector("[data-table]");
+    window.localStorage.setItem('tableState', tableState.innerHTML)
+}
+
+function loadLocalStorage() {
+    //loads stored keyboard state
+    const storedKeyboardState = window.localStorage.getItem("keyboardState")
+    if (storedKeyboardState) { //checks if localstorage isnt empty
+        document.querySelector("[data-keyboard]").innerHTML = storedKeyboardState
+    }
+    //loads stored 
+    const storedTableState = window.localStorage.getItem("tableState")
+    if (storedKeyboardState) { //checks if localstorage isnt empty
+        document.querySelector("[data-table]").innerHTML = storedTableState;
+    }
+
 }

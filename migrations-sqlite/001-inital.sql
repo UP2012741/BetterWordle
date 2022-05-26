@@ -32,7 +32,7 @@ INSERT INTO Words (id, word) VALUES
 (24,'ALLOW'),
 (25,'DEPOT'),
 (26,'MOVIE'),
-(27,'ZEPHR'),
+(27,'ZEBRA'),
 (28,'TAXES'),
 (29,'POINT'),
 (30,'THORN'),

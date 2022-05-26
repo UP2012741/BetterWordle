@@ -18,9 +18,9 @@ let winPercentage = 0;
 // })
 
 function pageLoaded() {
-    initTable();
-    keyboardInput();
-    loadLocalStorage();
+    initTable(); //creates game table
+    keyboardInput(); // listens for inputs
+    loadLocalStorage();//loads up the game state from local storage
 }
 
 
@@ -274,7 +274,7 @@ function loadLocalStorage() {
     if (storedKeyboardState) { //checks if localstorage isnt empty
         document.querySelector("[data-keyboard]").innerHTML = storedKeyboardState
     }
-    //loads stored 
+    //loads stored table state
     const storedTableState = window.localStorage.getItem("tableState")
     if (storedKeyboardState) { //checks if localstorage isnt empty
         document.querySelector("[data-table]").innerHTML = storedTableState;

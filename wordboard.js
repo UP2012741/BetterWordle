@@ -37,13 +37,14 @@ export async function getJustWord(id) {
     return db.get('SELECT word From WORDS WHERE id = ?', id);
 }
 
+//add word
 export async function addWord(word) {
     const db = await dbConn;
     const id = uuid();
     await db.run('INSERT INTO Words VALUES (?,?)', [id, word]);
     return listWords(); // Check
 }
-
+// edit word
 export async function editWord(updatedWord) {
     const db = await dbConn;
     const id = updatedWord.id;

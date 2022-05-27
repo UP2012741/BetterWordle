@@ -3,10 +3,6 @@ const NO_OF_GUESSES = 6; // THE NUMBER OF GUESSES ALLOWED
 const WORD_LENGTH = 5; // THE LENGTH OF WORDS
 const FLIP_ANIMATION_DURATION = 500;
 //local storage
-let gamesPlayed = 0;
-let winStreak = 0;
-let maxStreak = 0;
-let noOfWins = 0;
 let winPercentage = 0;
 
 
@@ -24,7 +20,7 @@ function pageLoaded() {
 }
 
 
-
+//loads as soon as webpage is opened 
 window.addEventListener('load', pageLoaded);
 
 //Creates the Grid for the words. 
@@ -242,14 +238,18 @@ function assignResult(square, result, i, temp) {
 
 async function checkGameState(result) {
     const resultSet = new Set(result); //Puts the array into a set
-    if (resultSet.has("correct") && resultSet.size === 1) { //checks if that state includes correct and only correct
+    if (resultSet.has("correct") && resultSet.size === 1) {
+        updateTotalGames() //checks if that state includes correct and only correct
+        updateTotalWins()
+        addWinStreak();
         showAlert("You win!", 5000) //outputs you win if true
-        //squareJiggle()
         stopInput() //stops all intearctions
         return
     }
     const rows = document.querySelectorAll("[data-solved = 'not-sovled']");
     if (rows.length === 0) {
+        updateTotalGames()
+        restartWinStreak()
         word = await getWordOfTheDay()
         showAlert(word["word"], 10000)
         stopInput()
@@ -276,4 +276,27 @@ function loadLocalStorage() {
         document.querySelector("[data-table]").innerHTML = storedTableState;
     }
 
+}
+
+function showStats() {
+
+}
+
+function updateTotalWins() {
+    const wins = window.localStorage.getItem("noOfWins") || 0 //If it doesnt exist then we assign it to 0 
+    window.localStorage.setItem('noOfWins', Number(wins) + 1) //increments the total wins by 1
+}
+
+function addWinStreak() {
+    const streak = window.localStorage.getItem("winStreak") || 0 //if it does not exist we assign it to 0 
+    window.localStorage.setItem("winStreak", Number(streak) + 1);
+}
+
+function restartWinStreak() {
+    window.localStorage.setItem("winSteak", 0)
+}
+
+function updateTotalGames() {
+    const games = window.loadLocalStorage.getItem("totalGames") || 0 //if it does not exist we set total games to 0
+    window.localStorage.setItem("totalGames", Number(games) + 1);
 }

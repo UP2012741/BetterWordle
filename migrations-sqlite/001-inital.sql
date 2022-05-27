@@ -40,5 +40,4 @@ INSERT INTO Words (id, word) VALUES
 
 
 -- Down
-
 DROP TABLE Words

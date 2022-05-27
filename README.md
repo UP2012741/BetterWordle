@@ -1,5 +1,10 @@
 # README
 
+##SETUP
+
+*npm install
+*npm start
+
 ## How it gets the word of the day
 
 The word of the day is stored in an sqlite database at the back end. The word depends on the day of the month 1 - 31. Ideally if I had more time I would have a word for every date for the next few years, however due to time constraints this was the best way. 

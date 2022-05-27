@@ -52,15 +52,15 @@ function keyboardInput() {
 
 //Handles mouse click inputs
 function handleMouseClick(e) {
-    if (e.target.matches("[data-key]")) {
+    if (e.target.matches("[data-key]")) { // if it clicks on the visual keyboard
         pressKey(e.target.dataset.key);
         return
     }
-    if (e.target.matches("[data-enter]")) {
+    if (e.target.matches("[data-enter]")) { //if it clicks on the enter box on the visual keyboard
         submitGuess();
         return
     }
-    if (e.target.matches("[data-delete]")) {
+    if (e.target.matches("[data-delete]")) {//if it clicks on the data delete on the visual keyboard
         deleteKey();
         return
     }
@@ -244,12 +244,16 @@ async function checkGameState(result) {
         addWinStreak();
         showAlert("You win!", 5000) //outputs you win if true
         stopInput() //stops all intearctions
+        updateStats()
+        showStats()
         return
     }
     const rows = document.querySelectorAll("[data-solved = 'not-sovled']");
     if (rows.length === 0) {
         updateTotalGames()
         restartWinStreak()
+        updateStats()
+        showStats()
         word = await getWordOfTheDay()
         showAlert(word["word"], 10000)
         stopInput()
@@ -279,7 +283,21 @@ function loadLocalStorage() {
 }
 
 function showStats() {
+    const statisticBox = document.querySelector("[data-statistic-conatiner]")
+    statisticBox.hidden = false;
+}
 
+function updateStats() {
+    const winStreak = window.localStorage.getItem("winStreak");
+    const noOfWins = window.localStorage.getItem("noOfWins");
+    const noOfGames = window.localStorage.getItem("totalGames");
+
+    document.querySelector("[data-total-played]").textContent = noOfGames;
+    document.querySelector("[data-total-wins]").textContent = noOfWins;
+    document.querySelector("[data-win-streak]").textContent = winStreak;
+
+    const percentage = Math.round((noOfWins / noOfGames) * 100) || 0;
+    document.querySelector("[data-win-percentage]").textContent = percentage + "%";
 }
 
 function updateTotalWins() {
@@ -293,10 +311,10 @@ function addWinStreak() {
 }
 
 function restartWinStreak() {
-    window.localStorage.setItem("winSteak", 0)
+    window.localStorage.setItem("winStreak", 0)
 }
 
 function updateTotalGames() {
-    const games = window.loadLocalStorage.getItem("totalGames") || 0 //if it does not exist we set total games to 0
+    const games = window.localStorage.getItem("totalGames") || 0 //if it does not exist we set total games to 0
     window.localStorage.setItem("totalGames", Number(games) + 1);
 }

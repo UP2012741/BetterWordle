@@ -16,9 +16,23 @@
                 <h1 class="title">BETTER WORDLE</h1>
                 <hr><br>
             </header>
-            <div class="alertContainer" data-alert-container></div>
+            <div class="alertContainer" data-alert-container>
+            </div>
 
             <div data-table class="table"></div>
+
+            <div class="statisticContainer " data-statistic-conatiner hidden>
+                <div class="header">
+                    <div class="title">STATISTICS</div>
+                </div>
+                <div class="statistic-body">
+                    <h3><strong>Total Played</strong> : <span data-total-played></span></h3>
+                    <h3><strong>Wins</strong> : <span data-total-wins></span> </h3>
+                    <h3><strong>Win Percentage</strong> :<span data-win-percentage></span></h3>
+                    <h3><strong>Win Streak</strong> :<span data-win-streak></span></h3>
+                </div>
+            </div>
+
 
             <div data-keyboard class="keyboard-overlay">
                 <button class="key" data-key="Q">Q</button>

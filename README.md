@@ -1,9 +1,9 @@
 # README
 
-##SETUP
+## SETUP
 
-*npm install
-*npm start
+* npm install
+* npm start
 
 ## How it gets the word of the day
 
